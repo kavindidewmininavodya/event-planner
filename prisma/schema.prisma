@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../app/generated/prisma"
 }
 
@@ -22,6 +22,7 @@ enum RsvpStatus {
 model Event {
   id           String   @id @default(uuid()) @db.Uuid
   ownerUserId  String   @map("owner_user_id")
+  owner        User     @relation(fields: [ownerUserId], references: [id])
   title        String
   description  String?
   location     String?
@@ -31,9 +32,24 @@ model Event {
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   invites      EventInvite?
+  rsvps        EventRsvp[]
 
   @@index([ownerUserId, createdAt(sort: Desc)], map: "idx_events_owner")
   @@map("events")
+}
+
+model User {
+  id        String   @id
+  name      String?
+  email     String   @unique
+  bio       String?
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  events    Event[]
+
+  @@map("users")
 }
 
 model EventInvite {
@@ -61,6 +77,8 @@ model EventRsvp {
   respondedAt      DateTime @default(now()) @map("responded_at") @db.Timestamptz(6)
   createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  event            Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([eventId, emailNormalized])
   @@index([eventId, respondedAt(sort: Desc)], map: "idx_rsvps_event")
