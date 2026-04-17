@@ -11,9 +11,9 @@ export default async function DashboardContent({ userId }: { userId: string }) {
                 </div>
 
                 <Button asChild>
-                    <Link href={"/events/new"}>Create event</Link>
+                    <Link href={"/event/new"}>Create event</Link>
                 </Button>
-
+                
             </div>
 
             {/* list of events */}
