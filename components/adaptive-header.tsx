@@ -66,12 +66,12 @@ export function AdaptiveHeader() {
           >
             Settings
           </Link>
-          <UserButton size="sm" />
+          <UserButton size="sm" disableDefaultLinks />
         </nav>
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-3 md:hidden">
-          <UserButton size="sm" />
+          <UserButton size="sm" disableDefaultLinks />
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="p-1 text-foreground"
