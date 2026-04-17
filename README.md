@@ -30,7 +30,7 @@ A premium, modern, and efficient platform for planning and managing your events.
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/kavindidewmininavodya/event-planner
 
 # Install dependencies
 npm install
